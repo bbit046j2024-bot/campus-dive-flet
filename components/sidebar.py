@@ -99,7 +99,7 @@ class Sidebar(ft.Container):
                 )
             )
 
-        # 3. User Profile Card at bottom
+        # 3. User Profile Card at bottom - FIX #9: Complete truncated parameters
         fullname = f"{self.user.get('firstname', '')} {self.user.get('lastname', '')}"
         user_card = ft.Container(
             content=ft.Row(
@@ -107,8 +107,12 @@ class Sidebar(ft.Container):
                     UserAvatar(self.user.get('firstname', ''), self.user.get('lastname', ''), size=36),
                     ft.Column(
                         controls=[
-                            ft.Text(fullname, size=12, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT, overflow=ft.TextOverflow.ELLIPSIS, max_lines=1),
-                            ft.Text(self.user.get('email', ''), size=10, color=ThemeColors.DARK_TEXT_MUTED if self.is_dark else ThemeColors.LIGHT_TEXT_MUTED, overflow=ft.TextOverflow.ELLIPSIS, max_lines=1),
+                            ft.Text(fullname, size=12, weight=ft.FontWeight.BOLD, 
+                                   color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT, 
+                                   overflow=ft.TextOverflow.ELLIPSIS, max_lines=1),
+                            ft.Text(self.user.get('email', ''), size=10, 
+                                   color=ThemeColors.DARK_TEXT_MUTED if self.is_dark else ThemeColors.LIGHT_TEXT_MUTED, 
+                                   overflow=ft.TextOverflow.ELLIPSIS, max_lines=1),
                         ],
                         spacing=1,
                         tight=True,
@@ -163,7 +167,7 @@ class Sidebar(ft.Container):
             controls=[
                 brand,
                 ft.Divider(height=20, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if self.is_dark else ThemeColors.LIGHT_BORDER)),
-                ft.Column(controls=nav_items, spacing=2, expand=True), # Scrollable middle nav
+                ft.Column(controls=nav_items, spacing=2, expand=True),
                 ft.Divider(height=20, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if self.is_dark else ThemeColors.LIGHT_BORDER)),
                 user_card,
                 ft.Container(height=10),

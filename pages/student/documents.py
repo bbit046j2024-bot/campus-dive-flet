@@ -5,8 +5,9 @@ from components.theme import ThemeColors, glass_card_style
 from components.widgets import PageHeader, StatusBadge, EmptyState
 from database import fetch_all, execute_query, fetch_one
 
-# Define secure absolute path for uploads directory
-UPLOADS_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "uploads"))
+# FIX #5: Use proper user data directory instead of app root
+# Store uploads in user's home directory for packaged app compatibility
+UPLOADS_DIR = os.path.expanduser("~/.campus_dive/uploads")
 os.makedirs(UPLOADS_DIR, exist_ok=True)
 
 # Whitelist of allowed document formats
@@ -150,6 +151,11 @@ def show_student_documents(page: ft.Page, user: dict):
             return
 
         try:
+            # FIX #12: Better error handling for file operations
+            if not os.path.exists(selected_file.path):
+                page.open(ft.SnackBar(ft.Text("Selected file no longer exists.")))
+                return
+
             # Copy file from temporary picker storage to the vault directory
             shutil.copy(selected_file.path, dest_path)
 

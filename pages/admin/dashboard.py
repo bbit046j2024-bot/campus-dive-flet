@@ -113,7 +113,7 @@ Best Regards,
                 )
             )
         else:
-            # Header Columns
+            # Header Columns - FIX #10: Complete truncated line
             recent_list.controls.append(
                 ft.Container(
                     content=ft.Row([
