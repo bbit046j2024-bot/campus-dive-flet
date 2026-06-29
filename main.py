@@ -1,6 +1,15 @@
 import flet as ft
-# Compatibility layer for Flet 0.85 color module removal
-ft.colors = ft.Colors
+import sys
+import os
+
+# Compatibility layer for Flet version differences
+try:
+    # Flet 0.85+ removed colors module, use Colors class instead
+    if not hasattr(ft, 'colors') or ft.colors is None:
+        ft.colors = ft.Colors
+except (AttributeError, NameError):
+    # Fallback for different Flet versions
+    pass
 
 from database import init_db
 from components.theme import get_theme, ThemeColors
@@ -38,6 +47,30 @@ def main(page: ft.Page):
     page.padding = 0
     page.spacing = 0
 
+    # Initialize session store - FIX #1: Session store initialization
+    if not hasattr(page, 'session') or page.session is None:
+        class SessionStore:
+            def __init__(self):
+                self.store = {}
+            def get(self, key):
+                return self.store.get(key)
+            def set(self, key, value):
+                self.store[key] = value
+            def clear(self):
+                self.store.clear()
+        
+        class Session:
+            def __init__(self):
+                self.store = {}
+            def get(self, key):
+                return self.store.get(key)
+            def set(self, key, value):
+                self.store[key] = value
+            def clear(self):
+                self.store.clear()
+        
+        page.session = Session()
+
     # Initialize SQLite tables & seed default admin
     init_db()
 
@@ -48,7 +81,7 @@ def main(page: ft.Page):
     def navigate(route):
         page.route = route
         page.bgcolor = ThemeColors.DARK_BG if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_BG
-        user = page.session.store.get("user")
+        user = page.session.store.get("user") if isinstance(page.session.store, dict) else page.session.get("user")
 
         # ── 1. ROUTE GUARDS / SESSION SECURITY (Resolves CSRF/Session vulnerabilities) ──
         public_routes = ("/", "/about", "/login", "/register")
@@ -129,17 +162,21 @@ def main(page: ft.Page):
         else:
             # Sidebar callbacks
             def on_logout(ev):
-                page.session.store.clear()
+                if isinstance(page.session.store, dict):
+                    page.session.store.clear()
+                else:
+                    page.session.clear()
                 page.go("/")
 
             def on_theme_toggle(ev):
+                # FIX #7: Don't re-navigate, just update theme and refresh UI
                 if page.theme_mode == ft.ThemeMode.DARK:
                     page.theme_mode = ft.ThemeMode.LIGHT
                     page.theme = get_theme(is_dark=False)
                 else:
                     page.theme_mode = ft.ThemeMode.DARK
                     page.theme = get_theme(is_dark=True)
-                navigate(page.route) # Re-navigate to refresh view colors
+                page.update()  # Just update, don't re-navigate
 
             sidebar = Sidebar(
                 page=page,
@@ -168,10 +205,11 @@ def main(page: ft.Page):
     # Override navigation functions so other modules work without changes
     page.go = navigate
     page.push_route = navigate
-    page.on_route_change = lambda e: navigate(page.route)
+    # FIX #8: Don't set on_route_change to avoid infinite recursion
+    # page.on_route_change = lambda e: navigate(page.route)
     
     # Go to landing page initially
     navigate(page.route or "/")
 
 if __name__ == "__main__":
-    ft.run(main)
+    ft.app(target=main)

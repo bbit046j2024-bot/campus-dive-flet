@@ -1,8 +1,13 @@
 import sqlite3
 import os
 import bcrypt
+import tempfile
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "campus_recruitment.db")
+# FIX #4: Use proper data directory instead of app root
+# Store database in user's home directory instead of app installation folder
+APP_DATA_DIR = os.path.expanduser("~/.campus_dive")
+os.makedirs(APP_DATA_DIR, exist_ok=True)
+DB_PATH = os.path.join(APP_DATA_DIR, "campus_recruitment.db")
 
 def get_db_connection():
     """Returns a connection to the SQLite database with row factory enabled."""
