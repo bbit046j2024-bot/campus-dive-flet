@@ -13,7 +13,7 @@ def show_about(page: ft.Page):
             ft.Text(
                 "About Campus Dive",
                 size=32,
-                weight=ft.FontWeight.BLACK,
+                weight=ft.FontWeight.W_900,
                 color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT,
             ),
             ft.Text(
@@ -45,27 +45,27 @@ def show_about(page: ft.Page):
             ft.Column(
                 controls=[
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Streamlined recruitment pipeline with status tracking", size=13)
                     ], spacing=10),
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Secure document management and verification", size=13)
                     ], spacing=10),
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Direct messaging between applicants and coordinators", size=13)
                     ], spacing=10),
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Community groups and social engagement features", size=13)
                     ], spacing=10),
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Advanced analytics and audit logging", size=13)
                     ], spacing=10),
                     ft.Row([
-                        ft.Icon(ft.icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
+                        ft.Icon(ft.Icons.CHECK_CIRCLE, color=ThemeColors.SUCCESS, size=20),
                         ft.Text("Role-based access control with granular permissions", size=13)
                     ], spacing=10),
                 ],

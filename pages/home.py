@@ -11,7 +11,7 @@ def show_home(page: ft.Page):
     hero_title = ft.Text(
         "Find where you belong.",
         size=46,
-        weight=ft.FontWeight.BLACK,
+        weight=ft.FontWeight.W_900,
         color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT,
         text_align=ft.TextAlign.CENTER,
     )
@@ -67,12 +67,12 @@ def show_home(page: ft.Page):
 
     # 2. Features Section
     features_list = [
-        (ft.icons.ASSIGNMENT, "Recruitment Pipeline", "Submit applications, track reviews, and schedule interviews with a visual tracker."),
-        (ft.icons.UPLOAD_FILE, "Secure Document Vault", "Upload resumes and transcripts protected against directory traversal attacks."),
-        (ft.icons.CHAT, "Direct Messaging", "Real-time direct communications between students, coordinators, and interviewers."),
-        (ft.icons.SHARE, "Social Hub Feed", "Create posts, join groups, comment and like inside a sandbox campus social feed."),
-        (ft.icons.SHIELD, "AI Security Audit", "Analyze code snippets for security vulnerabilities like SQL injection and path traversal."),
-        (ft.icons.ANALYTICS, "System Analytics", "Detailed charts and tracking logs for coordinators to monitor application stages.")
+        (ft.Icons.ASSIGNMENT, "Recruitment Pipeline", "Submit applications, track reviews, and schedule interviews with a visual tracker."),
+        (ft.Icons.UPLOAD_FILE, "Secure Document Vault", "Upload resumes and transcripts protected against directory traversal attacks."),
+        (ft.Icons.CHAT, "Direct Messaging", "Real-time direct communications between students, coordinators, and interviewers."),
+        (ft.Icons.SHARE, "Social Hub Feed", "Create posts, join groups, comment and like inside a sandbox campus social feed."),
+        (ft.Icons.SHIELD, "AI Security Audit", "Analyze code snippets for security vulnerabilities like SQL injection and path traversal."),
+        (ft.Icons.ANALYTICS, "System Analytics", "Detailed charts and tracking logs for coordinators to monitor application stages.")
     ]
 
     features_grid = ft.Row(
@@ -104,7 +104,7 @@ def show_home(page: ft.Page):
 
     features_header = ft.Column(
         controls=[
-            ft.Text("Features & Capabilities", size=24, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
+            ft.Text("Features & Capabilities", size=24, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
             ft.Text("Everything you need for student onboarding and campus community management", size=13, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
         ],
         horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -136,7 +136,7 @@ def show_home(page: ft.Page):
         controls=[
             ft.Column(
                 controls=[
-                    ft.Text(val, size=32, weight=ft.FontWeight.BLACK, color=ThemeColors.PRIMARY),
+                    ft.Text(val, size=32, weight=ft.FontWeight.W_900, color=ThemeColors.PRIMARY),
                     ft.Text(label, size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                 ],
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER,
@@ -149,8 +149,8 @@ def show_home(page: ft.Page):
         content=stats_row,
         padding=30,
         border_radius=16,
-        bgcolor=ft.colors.with_opacity(0.03, ft.colors.WHITE if is_dark else ft.colors.BLACK),
-        border=ft.border.all(1, ft.colors.with_opacity(0.05, ft.colors.WHITE if is_dark else ft.colors.BLACK)),
+        bgcolor=ft.colors.with_opacity(0.03, ft.colors.WHITE if is_dark else ft.colors.W_900),
+        border=ft.border.all(1, ft.colors.with_opacity(0.05, ft.colors.WHITE if is_dark else ft.colors.W_900)),
         margin=ft.margin.symmetric(vertical=20, horizontal=40),
     )
 

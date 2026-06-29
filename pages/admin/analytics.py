@@ -32,7 +32,7 @@ def show_analytics_panel(page: ft.Page, user: dict):
         if not logs:
             logs_list.controls.append(
                 EmptyState(
-                    ft.icons.HISTORY,
+                    ft.Icons.HISTORY,
                     "No Log Records",
                     "Security audit and admin activity log items will appear here.",
                     is_dark=is_dark
@@ -69,14 +69,14 @@ def show_analytics_panel(page: ft.Page, user: dict):
                         alignment=ft.alignment.center,
                     ),
                     ft.Text(l["details"] or "", size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, expand=4, overflow=ft.TextOverflow.ELLIPSIS),
-                ], alignment=ft.MainAxisAlignment.BETWEEN)
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
 
                 logs_list.controls.append(
                     ft.Container(
                         content=row_controls,
                         padding=ft.padding.symmetric(horizontal=12, vertical=8),
                         border_radius=8,
-                        hover_color=ft.colors.with_opacity(0.01, ThemeColors.PRIMARY),
+                        on_hover=lambda e: setattr(e.control, "bgcolor", ft.colors.with_opacity(0.01, ThemeColors.PRIMARY) if e.data == "true" else ft.colors.TRANSPARENT) or e.control.update(),
                     )
                 )
         page.update()

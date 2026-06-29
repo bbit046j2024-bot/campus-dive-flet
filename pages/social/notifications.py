@@ -26,7 +26,7 @@ def show_notifications_panel(page: ft.Page, user: dict):
         if not notifications:
             notifs_list.controls.append(
                 EmptyState(
-                    ft.icons.NOTIFICATIONS_OFF_OUTLINED,
+                    ft.Icons.NOTIFICATIONS_OFF_OUTLINED,
                     "Inbox is Clean",
                     "You have no system alerts or recruitment stage updates.",
                     is_dark=is_dark
@@ -39,11 +39,11 @@ def show_notifications_panel(page: ft.Page, user: dict):
                     ft.Text("Recent Announcements", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                     ft.TextButton(
                         text="Mark all as read",
-                        icon=ft.icons.DONE_ALL,
+                        icon=ft.Icons.DONE_ALL,
                         on_click=mark_all_read,
                         style=ft.ButtonStyle(color=ThemeColors.PRIMARY_LIGHT if is_dark else ThemeColors.PRIMARY_DARK),
                     )
-                ], alignment=ft.MainAxisAlignment.BETWEEN)
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
             )
 
             for n in notifications:
@@ -53,17 +53,17 @@ def show_notifications_panel(page: ft.Page, user: dict):
                 
                 # Determine icon & color based on alert types
                 n_type = n.get("type", "info").lower()
-                icon = ft.icons.NOTIFICATIONS_ON_OUTLINED
+                icon = ft.Icons.NOTIFICATIONS_ON_OUTLINED
                 icon_color = ThemeColors.PRIMARY
                 
                 if n_type in ("success", "approved"):
-                    icon = ft.icons.CHECK_CIRCLE_OUTLINE
+                    icon = ft.Icons.CHECK_CIRCLE_OUTLINE
                     icon_color = ThemeColors.SUCCESS
                 elif n_type in ("error", "danger", "rejected"):
-                    icon = ft.icons.ERROR_OUTLINE
+                    icon = ft.Icons.ERROR_OUTLINE
                     icon_color = ThemeColors.DANGER
                 elif n_type == "warning":
-                    icon = ft.icons.WARNING_AMBER_OUTLINED
+                    icon = ft.Icons.WARNING_AMBER_OUTLINED
                     icon_color = ThemeColors.WARNING
 
                 notifs_list.controls.append(

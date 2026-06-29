@@ -13,9 +13,9 @@ class StatusBadge(ft.Container):
             "documents_uploaded": (ft.colors.PURPLE_400, ft.colors.PURPLE_900),
             "under_review": (ft.colors.AMBER_400, ft.colors.AMBER_900),
             "interview_scheduled": (ft.colors.TEAL_400, ft.colors.TEAL_900),
-            "approved": (ft.colors.EMERALD_400, ft.colors.EMERALD_900),
+            "approved": (ft.colors.GREEN_400, ft.colors.GREEN_900),
             "rejected": (ft.colors.RED_400, ft.colors.RED_900),
-            "active": (ft.colors.EMERALD_400, ft.colors.EMERALD_900),
+            "active": (ft.colors.GREEN_400, ft.colors.GREEN_900),
             "archived": (ft.colors.GREY_400, ft.colors.GREY_900),
         }
         
@@ -80,7 +80,7 @@ class StatCard(ft.Container):
                     ft.Column(
                         controls=[
                             ft.Text(title, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, size=12, weight=ft.FontWeight.W_500),
-                            ft.Text(str(value), color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT, size=24, weight=ft.FontWeight.BLACK),
+                            ft.Text(str(value), color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT, size=24, weight=ft.FontWeight.W_900),
                         ],
                         spacing=2,
                         alignment=ft.MainAxisAlignment.CENTER,
@@ -166,9 +166,9 @@ class ProgressTracker(ft.Container):
             elif (is_done or is_current) and current_status == "approved":
                 circle_color = ThemeColors.SUCCESS
                 
-            icon = ft.icons.CHECK if is_done else (ft.icons.HOURGLASS_EMPTY if is_current else ft.icons.RADIO_BUTTON_UNCHECKED)
+            icon = ft.Icons.CHECK if is_done else (ft.Icons.HOURGLASS_EMPTY if is_current else ft.Icons.RADIO_BUTTON_UNCHECKED)
             if is_current and current_status == "rejected":
-                icon = ft.icons.CLOSE
+                icon = ft.Icons.CLOSE
                 
             circle = ft.Container(
                 content=ft.Icon(icon, size=14, color=ft.colors.WHITE if (is_done or is_current) else (ThemeColors.DARK_TEXT_FAINT if is_dark else ThemeColors.LIGHT_TEXT_FAINT)),
@@ -232,7 +232,7 @@ class PageHeader(ft.Column):
                 ft.Text(
                     title,
                     size=28,
-                    weight=ft.FontWeight.BLACK,
+                    weight=ft.FontWeight.W_900,
                     color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT,
                 ),
                 ft.Text(

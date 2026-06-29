@@ -19,7 +19,7 @@ def show_social_feed(page: ft.Page, user: dict):
 
     # 1. Compose post card fields
     post_input = ft.TextField(
-        placeholder="What's on your mind?",
+        hint_text="What's on your mind?",
         multiline=True,
         min_lines=2,
         max_lines=4,
@@ -28,8 +28,8 @@ def show_social_feed(page: ft.Page, user: dict):
     )
     
     media_input = ft.TextField(
-        placeholder="Image or media URL (Optional)",
-        prefix_icon=ft.icons.LINK,
+        hint_text="Image or media URL (Optional)",
+        prefix_icon=ft.Icons.LINK,
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
         text_size=12,
     )
@@ -57,7 +57,7 @@ def show_social_feed(page: ft.Page, user: dict):
 
     post_btn = ft.ElevatedButton(
         text="Share Post",
-        icon=ft.icons.SHARE,
+        icon=ft.Icons.SHARE,
         bgcolor=ThemeColors.PRIMARY,
         color=ft.colors.WHITE,
         on_click=submit_post,
@@ -96,7 +96,7 @@ def show_social_feed(page: ft.Page, user: dict):
         if not posts:
             feed_list.controls.append(
                 EmptyState(
-                    ft.icons.FEED_OUTLINED,
+                    ft.Icons.FEED_OUTLINED,
                     "Feed is Empty",
                     "Be the first to share an update on the global campus feed!",
                     is_dark=is_dark
@@ -111,7 +111,7 @@ def show_social_feed(page: ft.Page, user: dict):
                 # Expand comments container
                 comments_box = ft.Column(spacing=6, visible=False)
                 new_comment_input = ft.TextField(
-                    placeholder="Write a comment...",
+                    hint_text="Write a comment...",
                     border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
                     text_size=12,
                     expand=True,
@@ -180,7 +180,7 @@ def show_social_feed(page: ft.Page, user: dict):
                         ft.Row([
                             new_comment_input,
                             ft.IconButton(
-                                icon=ft.icons.SEND,
+                                icon=ft.Icons.SEND,
                                 icon_color=ThemeColors.PRIMARY,
                                 icon_size=16,
                                 on_click=post_comment,
@@ -219,7 +219,7 @@ def show_social_feed(page: ft.Page, user: dict):
                 card_items.append(ft.Divider(height=1, color=ft.colors.with_opacity(0.05, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)))
                 
                 # Action links
-                like_icon = ft.icons.FAVORITE if has_liked else ft.icons.FAVORITE_BORDER
+                like_icon = ft.Icons.FAVORITE if has_liked else ft.Icons.FAVORITE_BORDER
                 like_color = ThemeColors.DANGER if has_liked else (ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED)
 
                 card_items.append(
@@ -229,7 +229,7 @@ def show_social_feed(page: ft.Page, user: dict):
                             ft.Text(str(p["like_count"]), size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                         ], spacing=4),
                         ft.Row([
-                            ft.IconButton(ft.icons.COMMENT_OUTLINED, icon_color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, icon_size=18, on_click=toggle_comments),
+                            ft.IconButton(ft.Icons.COMMENT_OUTLINED, icon_color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, icon_size=18, on_click=toggle_comments),
                             ft.Text(str(p["comment_count"]), size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                         ], spacing=4),
                     ], spacing=16)

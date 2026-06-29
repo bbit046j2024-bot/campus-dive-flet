@@ -70,10 +70,10 @@ def show_roles_manager(page: ft.Page, user: dict):
                 disabled=is_self,
                 border_color=ThemeColors.PRIMARY,
                 text_size=12,
-                height=38,
                 width=140,
                 on_change=lambda e, user_id=uid: change_user_role(user_id, e.control.value),
             )
+            role_dropdown.height = 38
 
             row_controls = ft.Row([
                 ft.Column([
@@ -81,14 +81,14 @@ def show_roles_manager(page: ft.Page, user: dict):
                     ft.Text(u["email"], size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                 ], spacing=2, expand=3),
                 ft.Row([role_dropdown], expand=2)
-            ], alignment=ft.MainAxisAlignment.BETWEEN)
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
 
             users_list.controls.append(
                 ft.Container(
                     content=row_controls,
                     padding=ft.padding.symmetric(horizontal=12, vertical=6),
                     border_radius=8,
-                    hover_color=ft.colors.with_opacity(0.02, ThemeColors.PRIMARY),
+                    on_hover=lambda e: setattr(e.control, "bgcolor", ft.colors.with_opacity(0.02, ThemeColors.PRIMARY) if e.data == "true" else ft.colors.TRANSPARENT) or e.control.update(),
                 )
             )
         page.update()

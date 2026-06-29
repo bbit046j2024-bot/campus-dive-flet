@@ -40,8 +40,8 @@ def show_student_dashboard(page: ft.Page, user: dict):
 
     stats_row = ft.Row(
         controls=[
-            StatCard("Uploaded Documents", doc_count, ft.icons.UPLOAD_FILE, ThemeColors.PRIMARY, is_dark),
-            StatCard("Unread Notifications", unread_notifs, ft.icons.NOTIFICATIONS, ThemeColors.ACCENT, is_dark),
+            StatCard("Uploaded Documents", doc_count, ft.Icons.UPLOAD_FILE, ThemeColors.PRIMARY, is_dark),
+            StatCard("Unread Notifications", unread_notifs, ft.Icons.NOTIFICATIONS, ThemeColors.ACCENT, is_dark),
         ],
         spacing=16,
     )
@@ -75,14 +75,19 @@ def show_student_dashboard(page: ft.Page, user: dict):
     banner = ft.Container(
         content=ft.Row(
             controls=[
-                ft.Icon(ft.icons.INFO_OUTLINE, color=banner_color, size=28),
+                ft.Icon(ft.Icons.INFO_OUTLINE, color=banner_color, size=28),
                 ft.Column(
                     controls=[
                         ft.Row([
                             ft.Text(banner_title, size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                             StatusBadge(status)
                         ], spacing=10),
-                        ft.Text(banner_desc, size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, max_width=600),
+                        ft.Text(
+    banner_desc, 
+    size=12, 
+    color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED,
+    no_wrap=False  # This ensures long descriptions wrap perfectly across multiple lines
+),
                     ],
                     spacing=4,
                     expand=True,
@@ -135,7 +140,7 @@ def show_student_dashboard(page: ft.Page, user: dict):
             notif_list.controls.append(
                 ft.Container(
                     content=ft.Row([
-                        ft.Icon(ft.icons.NOTIFICATIONS_ON_OUTLINED, color=ThemeColors.PRIMARY, size=16),
+                        ft.Icon(ft.Icons.NOTIFICATIONS_ON_OUTLINED, color=ThemeColors.PRIMARY, size=16),
                         ft.Column([
                             ft.Text(n["title"], size=12, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                             ft.Text(n["message"], size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
@@ -153,7 +158,7 @@ def show_student_dashboard(page: ft.Page, user: dict):
             ft.Row([
                 ft.Text("Recent Alerts", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                 ft.TextButton("Clear all", on_click=lambda _: clear_notifs(page, user_id), style=ft.ButtonStyle(color=ThemeColors.PRIMARY)),
-            ], alignment=ft.MainAxisAlignment.BETWEEN),
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             ft.Divider(height=10, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
             notif_list
         ], spacing=10),

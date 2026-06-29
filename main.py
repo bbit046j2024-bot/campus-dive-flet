@@ -81,7 +81,7 @@ def main(page: ft.Page):
     def navigate(route):
         page.route = route
         page.bgcolor = ThemeColors.DARK_BG if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_BG
-        user = page.session.store.get("user") if isinstance(page.session.store, dict) else page.session.get("user")
+        user = page.session.get("user")
 
         # ── 1. ROUTE GUARDS / SESSION SECURITY (Resolves CSRF/Session vulnerabilities) ──
         public_routes = ("/", "/about", "/login", "/register")
@@ -162,11 +162,8 @@ def main(page: ft.Page):
         else:
             # Sidebar callbacks
             def on_logout(ev):
-                if isinstance(page.session.store, dict):
-                    page.session.store.clear()
-                else:
-                    page.session.clear()
-                page.go("/")
+                page.session.clear()  # Safely clears out all logged-in user session data
+                page.go("/")          # Redirects the user back to the landing page
 
             def on_theme_toggle(ev):
                 # FIX #7: Don't re-navigate, just update theme and refresh UI

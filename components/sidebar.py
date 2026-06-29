@@ -26,8 +26,8 @@ class Sidebar(ft.Container):
         # 1. Platform Branding
         brand = ft.Row(
             controls=[
-                ft.Icon(ft.icons.EXPLORE, color=ThemeColors.PRIMARY, size=28),
-                ft.Text("Campus Dive", size=18, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT),
+                ft.Icon(ft.Icons.EXPLORE, color=ThemeColors.PRIMARY, size=28),
+                ft.Text("Campus Dive", size=18, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT),
             ],
             spacing=10,
             alignment=ft.MainAxisAlignment.START,
@@ -56,31 +56,37 @@ class Sidebar(ft.Container):
 
         # Menu structures
         student_menu = [
-            ("Dashboard", "/student/dashboard", ft.icons.DASHBOARD),
-            ("My Documents", "/student/documents", ft.icons.ATTACHMENT),
-            ("Direct Messages", "/messages", ft.icons.CHAT),
-            ("Social Hub", "/social/feed", ft.icons.SHARE),
-            ("Groups", "/social/groups", ft.icons.GROUP),
-            ("Settings", "/student/settings", ft.icons.SETTINGS),
+            ("Dashboard", "/student/dashboard", ft.Icons.DASHBOARD),
+            ("My Documents", "/student/documents", ft.Icons.ATTACHMENT),
+            ("Direct Messages", "/messages", ft.Icons.CHAT),
+            ("Social Hub", "/social/feed", ft.Icons.SHARE),
+            ("Groups", "/social/groups", ft.Icons.GROUP),
+            ("Settings", "/student/settings", ft.Icons.SETTINGS),
         ]
 
         admin_menu = [
-            ("Dashboard", "/admin/dashboard", ft.icons.DASHBOARD),
-            ("Students Manager", "/admin/students", ft.icons.SCHOOL),
-            ("Direct Messages", "/messages", ft.icons.CHAT),
-            ("Social Hub", "/social/feed", ft.icons.SHARE),
-            ("Groups", "/social/groups", ft.icons.GROUP),
-            ("Broadcast Panel", "/admin/broadcast", ft.icons.CAMPAIGN),
-            ("AI Code Auditor", "/audit", ft.icons.SHIELD),
-            ("Analytics Logs", "/admin/analytics", ft.icons.ANALYTICS),
-            ("Role Config", "/admin/roles", ft.icons.ADMIN_PANEL_SETTINGS),
-            ("Settings", "/student/settings", ft.icons.SETTINGS),
+            ("Dashboard", "/admin/dashboard", ft.Icons.DASHBOARD),
+            ("Students Manager", "/admin/students", ft.Icons.SCHOOL),
+            ("Direct Messages", "/messages", ft.Icons.CHAT),
+            ("Social Hub", "/social/feed", ft.Icons.SHARE),
+            ("Groups", "/social/groups", ft.Icons.GROUP),
+            ("Broadcast Panel", "/admin/broadcast", ft.Icons.CAMPAIGN),
+            ("AI Code Auditor", "/audit", ft.Icons.SHIELD),
+            ("Analytics Logs", "/admin/analytics", ft.Icons.ANALYTICS),
+            ("Role Config", "/admin/roles", ft.Icons.ADMIN_PANEL_SETTINGS),
+            ("Settings", "/student/settings", ft.Icons.SETTINGS),
         ]
 
         active_menu = admin_menu if self.role in ("admin", "manager", "interviewer") else student_menu
 
+        # Clean Hover Handler Function for Menu Items
+        def make_hover_handler(normal_bg, hover_bg):
+            return lambda e: setattr(e.control, "bgcolor", hover_bg if e.data == "true" else normal_bg) or e.control.update()
+
         for title, route, icon in active_menu:
             btn_style = get_btn_style(route)
+            default_bg = btn_style["bgcolor"]
+            hover_bg = ft.colors.with_opacity(0.05, ThemeColors.PRIMARY)
             
             nav_items.append(
                 ft.Container(
@@ -92,14 +98,14 @@ class Sidebar(ft.Container):
                         spacing=12,
                     ),
                     padding=ft.padding.symmetric(horizontal=12, vertical=10),
-                    bgcolor=btn_style["bgcolor"],
+                    bgcolor=default_bg,
                     border_radius=8,
                     on_click=lambda e, r=route: self.page.go(r),
-                    hover_color=ft.colors.with_opacity(0.05, ThemeColors.PRIMARY),
+                    on_hover=make_hover_handler(default_bg, hover_bg), # FIXED HERE
                 )
             )
 
-        # 3. User Profile Card at bottom - FIX #9: Complete truncated parameters
+        # 3. User Profile Card at bottom
         fullname = f"{self.user.get('firstname', '')} {self.user.get('lastname', '')}"
         user_card = ft.Container(
             content=ft.Row(
@@ -127,7 +133,7 @@ class Sidebar(ft.Container):
         )
 
         # 4. Settings Toggles (Theme, Logout)
-        theme_toggle_icon = ft.icons.LIGHT_MODE if self.is_dark else ft.icons.DARK_MODE
+        theme_toggle_icon = ft.Icons.LIGHT_MODE if self.is_dark else ft.Icons.DARK_MODE
         theme_toggle_text = "Light Mode" if self.is_dark else "Dark Mode"
         
         system_controls = ft.Column(
@@ -141,22 +147,24 @@ class Sidebar(ft.Container):
                         spacing=12,
                     ),
                     padding=ft.padding.symmetric(horizontal=12, vertical=10),
+                    bgcolor=ft.colors.TRANSPARENT,
                     on_click=self.on_theme_toggle,
                     border_radius=8,
-                    hover_color=ft.colors.with_opacity(0.05, ThemeColors.PRIMARY),
+                    on_hover=make_hover_handler(ft.colors.TRANSPARENT, ft.colors.with_opacity(0.05, ThemeColors.PRIMARY)), # FIXED HERE
                 ),
                 ft.Container(
                     content=ft.Row(
                         controls=[
-                            ft.Icon(ft.icons.EXIT_TO_APP, color=ThemeColors.DANGER, size=20),
+                            ft.Icon(ft.Icons.EXIT_TO_APP, color=ThemeColors.DANGER, size=20),
                             ft.Text("Logout", color=ThemeColors.DANGER, size=13, weight=ft.FontWeight.BOLD),
                         ],
                         spacing=12,
                     ),
                     padding=ft.padding.symmetric(horizontal=12, vertical=10),
+                    bgcolor=ft.colors.TRANSPARENT,
                     on_click=self.on_logout,
                     border_radius=8,
-                    hover_color=ft.colors.with_opacity(0.1, ThemeColors.DANGER),
+                    on_hover=make_hover_handler(ft.colors.TRANSPARENT, ft.colors.with_opacity(0.1, ThemeColors.DANGER)), # FIXED HERE
                 )
             ],
             spacing=2,

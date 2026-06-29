@@ -35,7 +35,7 @@ def show_student_documents(page: ft.Page, user: dict):
         if not docs:
             documents_list.controls.append(
                 EmptyState(
-                    ft.icons.FOLDER_OPEN_OUTLINED,
+                    ft.Icons.FOLDER_OPEN_OUTLINED,
                     "No Documents Yet",
                     "Please upload your Resume or Academic Transcripts to begin review.",
                     is_dark=is_dark
@@ -50,7 +50,7 @@ def show_student_documents(page: ft.Page, user: dict):
                     ft.Text("Status", size=11, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, expand=1),
                     ft.Text("Actions", size=11, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, expand=1, text_align=ft.TextAlign.RIGHT),
                 ],
-                alignment=ft.MainAxisAlignment.BETWEEN,
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
             )
             documents_list.controls.append(
                 ft.Container(
@@ -94,14 +94,14 @@ def show_student_documents(page: ft.Page, user: dict):
                 row_controls = ft.Row(
                     controls=[
                         ft.Row([
-                            ft.Icon(ft.icons.INSERT_DRIVE_FILE, color=ThemeColors.PRIMARY, size=18),
+                            ft.Icon(ft.Icons.INSERT_DRIVE_FILE, color=ThemeColors.PRIMARY, size=18),
                             ft.Text(d["original_name"], size=13, weight=ft.FontWeight.W_500, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT, overflow=ft.TextOverflow.ELLIPSIS),
                         ], spacing=8, expand=3),
                         ft.Text(file_size_kb, size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, expand=1),
                         StatusBadge(d["status"]),
                         ft.Row([
                             ft.IconButton(
-                                icon=ft.icons.DELETE_OUTLINE,
+                                icon=ft.Icons.DELETE_OUTLINE,
                                 icon_color=ThemeColors.DANGER,
                                 icon_size=18,
                                 on_click=delete_doc,
@@ -109,7 +109,7 @@ def show_student_documents(page: ft.Page, user: dict):
                             )
                         ], expand=1, alignment=ft.MainAxisAlignment.END)
                     ],
-                    alignment=ft.MainAxisAlignment.BETWEEN,
+                    alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                 )
 
                 documents_list.controls.append(
@@ -117,7 +117,7 @@ def show_student_documents(page: ft.Page, user: dict):
                         content=row_controls,
                         padding=ft.padding.symmetric(horizontal=12, vertical=10),
                         border_radius=8,
-                        hover_color=ft.colors.with_opacity(0.02, ThemeColors.PRIMARY),
+                        on_hover=lambda e: setattr(e.control, "bgcolor", ft.colors.with_opacity(0.02, ThemeColors.PRIMARY) if e.data == "true" else ft.colors.TRANSPARENT) or e.control.update(),
                     )
                 )
         page.update()
@@ -188,7 +188,7 @@ def show_student_documents(page: ft.Page, user: dict):
 
     upload_button = ft.ElevatedButton(
         text="Upload Document",
-        icon=ft.icons.UPLOAD,
+        icon=ft.Icons.UPLOAD,
         bgcolor=ThemeColors.PRIMARY,
         color=ft.colors.WHITE,
         on_click=lambda _: file_picker.pick_files(allow_multiple=False),
@@ -203,7 +203,7 @@ def show_student_documents(page: ft.Page, user: dict):
                 ft.Row([
                     ft.Text("Vault Documents", size=16, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                     upload_button,
-                ], alignment=ft.MainAxisAlignment.BETWEEN),
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                 ft.Divider(height=10, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
                 documents_list,
             ],

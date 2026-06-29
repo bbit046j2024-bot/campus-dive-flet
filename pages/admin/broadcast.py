@@ -104,7 +104,7 @@ def show_broadcast_panel(page: ft.Page, user: dict):
 
     send_btn = ft.ElevatedButton(
         text="Distribute Announcement",
-        icon=ft.icons.SEND,
+        icon=ft.Icons.SEND,
         bgcolor=ThemeColors.PRIMARY,
         color=ft.colors.WHITE,
         on_click=trigger_broadcast,
@@ -123,9 +123,9 @@ def show_broadcast_panel(page: ft.Page, user: dict):
             ft.Row([send_btn], alignment=ft.MainAxisAlignment.START)
         ], spacing=14),
         padding=24,
-        max_width=600,
         **style
     )
+    broadcast_card.max_width = 600
 
     layout = ft.Container(
         content=ft.Column([

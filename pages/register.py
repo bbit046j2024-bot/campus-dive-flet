@@ -9,11 +9,11 @@ def show_register(page: ft.Page):
     style = glass_card_style(is_dark)
 
     # Input Fields
-    firstname_input = ft.TextField(label="First Name", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
-    lastname_input = ft.TextField(label="Last Name", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
+    firstname_input = ft.TextField(label="First Name", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13, expand=True)
+    lastname_input = ft.TextField(label="Last Name", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13, expand=True)
     email_input = ft.TextField(label="Email Address", keyboard_type=ft.KeyboardType.EMAIL, border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
-    phone_input = ft.TextField(label="Phone Number", keyboard_type=ft.KeyboardType.PHONE, border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
-    student_id_input = ft.TextField(label="Student ID (Optional)", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
+    phone_input = ft.TextField(label="Phone Number", keyboard_type=ft.KeyboardType.PHONE, border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13, expand=True)
+    student_id_input = ft.TextField(label="Student ID (Optional)", border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13, expand=True)
     password_input = ft.TextField(label="Password", password=True, can_reveal_password=True, border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
     confirm_password_input = ft.TextField(label="Confirm Password", password=True, can_reveal_password=True, border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER, text_size=13)
 
@@ -58,7 +58,8 @@ def show_register(page: ft.Page):
             # Auto-login after successful registration
             user = login_user(email, pwd)
             if user:
-                page.session.store.set("user", user)
+                # Save user session details - FIXED HERE
+                page.session.set("user", user)
                 page.go("/student/dashboard")
             else:
                 page.go("/login")
@@ -84,7 +85,7 @@ def show_register(page: ft.Page):
     form_card = ft.Container(
         content=ft.Column(
             controls=[
-                ft.Text("Onboarding Application", size=24, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
+                ft.Text("Onboarding Application", size=24, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                 ft.Text("Submit your profile details to start student recruitment", size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                 ft.Container(height=10),
                 ft.Row([firstname_input, lastname_input], spacing=10),

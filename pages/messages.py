@@ -23,7 +23,7 @@ def show_messages_page(page: ft.Page, user: dict):
     messages_timeline = ft.Column(spacing=10, scroll=ft.ScrollMode.ADAPTIVE, expand=True)
     
     message_input = ft.TextField(
-        placeholder="Type a message...",
+        hint_text="Type a message...",
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
         focused_border_color=ThemeColors.PRIMARY,
         text_size=13,
@@ -57,7 +57,8 @@ def show_messages_page(page: ft.Page, user: dict):
                 
                 # Active selection highlight
                 is_active = selected_partner_id == pid
-                bg = ft.colors.with_opacity(0.1, ThemeColors.PRIMARY) if is_active else ft.colors.TRANSPARENT
+                default_bg = ft.colors.with_opacity(0.1, ThemeColors.PRIMARY) if is_active else ft.colors.TRANSPARENT
+                hover_bg = ft.colors.with_opacity(0.03, ThemeColors.PRIMARY)
                 
                 contacts_list.controls.append(
                     ft.Container(
@@ -69,10 +70,10 @@ def show_messages_page(page: ft.Page, user: dict):
                             ], spacing=1, expand=True)
                         ], spacing=8),
                         padding=8,
-                        bgcolor=bg,
+                        bgcolor=default_bg,
                         border_radius=8,
                         on_click=lambda e, partner_id=pid, partner_name=pname: select_conversation(partner_id, partner_name),
-                        hover_color=ft.colors.with_opacity(0.03, ThemeColors.PRIMARY),
+                        on_hover=lambda e, db=default_bg, hb=hover_bg: setattr(e.control, "bgcolor", hb if e.data == "true" else db) or e.control.update(),
                     )
                 )
         page.update()
@@ -106,7 +107,7 @@ def show_messages_page(page: ft.Page, user: dict):
             ft.Row([
                 message_input,
                 ft.IconButton(
-                    icon=ft.icons.SEND,
+                    icon=ft.Icons.SEND,
                     icon_color=ThemeColors.PRIMARY,
                     on_click=send_message,
                     tooltip="Send Message"
@@ -139,21 +140,25 @@ def show_messages_page(page: ft.Page, user: dict):
             bubble_color = ThemeColors.PRIMARY if is_me else (ThemeColors.DARK_SURFACE_LIGHT if is_dark else ThemeColors.LIGHT_SURFACE_LIGHT)
             text_color = ft.colors.WHITE if is_me else (ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT)
             
+            msg_container = ft.Container(
+                content=ft.Text(m["message"], color=text_color, size=13),
+                bgcolor=bubble_color,
+                padding=ft.padding.symmetric(horizontal=12, vertical=8),
+                border_radius=ft.border_radius.only(
+                    top_left=12, top_right=12,
+                    bottom_left=0 if not is_me else 12,
+                    bottom_right=12 if not is_me else 0
+                ),
+            )
+            msg_container.constraints = ft.BoxConstraints(max_width=320)
+
             messages_timeline.controls.append(
-                ft.Column([
-                    ft.Container(
-                        content=ft.Text(m["message"], color=text_color, size=13),
-                        bgcolor=bubble_color,
-                        padding=ft.padding.symmetric(horizontal=12, vertical=8),
-                        border_radius=ft.border_radius.only(
-                            top_left=12, top_right=12,
-                            bottom_left=0 if not is_me else 12,
-                            bottom_right=12 if not is_me else 0
-                        ),
-                        max_width=320,
-                    ),
-                    ft.Text(m["created_at"][-8:-3], size=9, color=ThemeColors.DARK_TEXT_FAINT if is_dark else ThemeColors.LIGHT_TEXT_FAINT)
-                ], horizontal_alignment=align, spacing=2)
+                ft.Row([
+                    ft.Column([
+                        msg_container,
+                        ft.Text(m["created_at"][-8:-3], size=9, color=ThemeColors.DARK_TEXT_FAINT if is_dark else ThemeColors.LIGHT_TEXT_FAINT)
+                    ], horizontal_alignment=align, spacing=2)
+                ], alignment=ft.MainAxisAlignment.END if is_me else ft.MainAxisAlignment.START)
             )
         page.update()
 
@@ -247,7 +252,7 @@ def show_messages_page(page: ft.Page, user: dict):
     # Initial Right Pane Placeholder
     right_pane.controls.append(
         EmptyState(
-            ft.icons.CHAT_BUBBLE_OUTLINE,
+            ft.Icons.CHAT_BUBBLE_OUTLINE,
             "No Conversation Selected",
             "Select a contact from the left list to begin messaging, or initiate a new chat thread.",
             is_dark=is_dark
@@ -259,8 +264,8 @@ def show_messages_page(page: ft.Page, user: dict):
         content=ft.Column([
             ft.Row([
                 ft.Text("Chats", size=15, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
-                ft.IconButton(ft.icons.ADD_COMMENT_OUTLINED, icon_color=ThemeColors.PRIMARY, icon_size=18, on_click=open_new_chat_dialog, tooltip="Start Chat")
-            ], alignment=ft.MainAxisAlignment.BETWEEN),
+                ft.IconButton(ft.Icons.ADD_COMMENT_OUTLINED, icon_color=ThemeColors.PRIMARY, icon_size=18, on_click=open_new_chat_dialog, tooltip="Start Chat")
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             ft.Divider(height=10, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
             contacts_list,
         ], spacing=10),

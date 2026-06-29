@@ -21,8 +21,8 @@ class Navbar(ft.Container):
         brand = ft.GestureDetector(
             content=ft.Row(
                 controls=[
-                    ft.Icon(ft.icons.EXPLORE, color=ThemeColors.PRIMARY, size=26),
-                    ft.Text("Campus Dive", size=18, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT),
+                    ft.Icon(ft.Icons.EXPLORE, color=ThemeColors.PRIMARY, size=26),
+                    ft.Text("Campus Dive", size=18, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT),
                 ],
                 spacing=8,
             ),
@@ -74,10 +74,12 @@ class Navbar(ft.Container):
             spacing=10,
         )
 
+        # Main layout structure
         self.content = ft.Row(
             controls=[
                 brand,
-                ft.Row([nav_links, auth_links], spacing=20),
+                nav_links,   # Placed directly here so SPACE_BETWEEN pushes it to the center
+                auth_links,  # Pushed to the far right
             ],
-            alignment=ft.MainAxisAlignment.BETWEEN,
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         )

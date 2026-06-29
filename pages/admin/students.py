@@ -23,7 +23,7 @@ def show_students_manager(page: ft.Page, user: dict):
     # Search inputs
     search_input = ft.TextField(
         label="Search students by name, email, or ID...",
-        prefix_icon=ft.icons.SEARCH,
+        prefix_icon=ft.Icons.SEARCH,
         on_change=lambda e: handle_search(e.control.value),
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
         text_size=13,
@@ -125,14 +125,14 @@ def show_students_manager(page: ft.Page, user: dict):
                 doc_list.controls.append(
                     ft.Container(
                         content=ft.Row([
-                            ft.Icon(ft.icons.INSERT_DRIVE_FILE, color=ThemeColors.PRIMARY, size=16),
+                            ft.Icon(ft.Icons.INSERT_DRIVE_FILE, color=ThemeColors.PRIMARY, size=16),
                             ft.Text(d["original_name"], size=12, expand=True, overflow=ft.TextOverflow.ELLIPSIS, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                             StatusBadge(d["status"]),
                             ft.Row([
-                                ft.IconButton(ft.icons.CHECK, icon_color=ThemeColors.SUCCESS, icon_size=16, tooltip="Approve Document", on_click=lambda e: update_doc_status(e, s="approved")),
-                                ft.IconButton(ft.icons.CLOSE, icon_color=ThemeColors.DANGER, icon_size=16, tooltip="Reject Document", on_click=lambda e: update_doc_status(e, s="rejected")),
+                                ft.IconButton(ft.Icons.CHECK, icon_color=ThemeColors.SUCCESS, icon_size=16, tooltip="Approve Document", on_click=lambda e: update_doc_status(e, s="approved")),
+                                ft.IconButton(ft.Icons.CLOSE, icon_color=ThemeColors.DANGER, icon_size=16, tooltip="Reject Document", on_click=lambda e: update_doc_status(e, s="rejected")),
                             ], spacing=2)
-                        ], alignment=ft.MainAxisAlignment.BETWEEN),
+                        ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                         padding=6,
                         bgcolor=ft.colors.with_opacity(0.02, ft.colors.WHITE if is_dark else ft.colors.BLACK),
                         border_radius=6,
@@ -143,7 +143,7 @@ def show_students_manager(page: ft.Page, user: dict):
             controls=[
                 ft.Row([
                     ft.Column([
-                        ft.Text(f"{student['firstname']} {student['lastname']}", size=20, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
+                        ft.Text(f"{student['firstname']} {student['lastname']}", size=20, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                         ft.Text(f"Email: {student['email']} • Phone: {student['phone']}", size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                         ft.Text(f"Student ID: {student['student_id'] or 'N/A'} • Location: {student['location'] or 'N/A'}", size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                     ], spacing=2, expand=True)
@@ -158,7 +158,7 @@ def show_students_manager(page: ft.Page, user: dict):
                 ft.Row([
                     status_select,
                     ft.ElevatedButton("Update Status", on_click=save_status_change, bgcolor=ThemeColors.PRIMARY, color=ft.colors.WHITE, height=40)
-                ], alignment=ft.MainAxisAlignment.BETWEEN)
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
             ],
             spacing=12,
             tight=True,
@@ -202,7 +202,7 @@ def show_students_manager(page: ft.Page, user: dict):
         if not students:
             students_grid.controls.append(
                 EmptyState(
-                    ft.icons.SEARCH_OFF_OUTLINED,
+                    ft.Icons.SEARCH_OFF_OUTLINED,
                     "No Matching Students",
                     "Try refining your search text or removing the status filter.",
                     is_dark=is_dark
@@ -236,21 +236,21 @@ def show_students_manager(page: ft.Page, user: dict):
                     StatusBadge(s["status"]),
                     ft.Row([
                         ft.IconButton(
-                            icon=ft.icons.VISIBILITY_OUTLINED,
+                            icon=ft.Icons.VISIBILITY_OUTLINED,
                             icon_color=ThemeColors.PRIMARY,
                             icon_size=18,
                             tooltip="Review Profile & Files",
                             on_click=lambda e, sid=sid: open_student_modal(sid),
                         )
                     ], expand=1, alignment=ft.MainAxisAlignment.END)
-                ], alignment=ft.MainAxisAlignment.BETWEEN)
+                ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
 
                 students_grid.controls.append(
                     ft.Container(
                         content=row_controls,
                         padding=ft.padding.symmetric(horizontal=12, vertical=8),
                         border_radius=8,
-                        hover_color=ft.colors.with_opacity(0.02, ThemeColors.PRIMARY),
+                        on_hover=lambda e: setattr(e.control, "bgcolor", ft.colors.with_opacity(0.02, ThemeColors.PRIMARY) if e.data == "true" else ft.colors.TRANSPARENT) or e.control.update(),
                     )
                 )
         page.update()

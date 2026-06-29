@@ -28,10 +28,10 @@ def show_admin_dashboard(page: ft.Page, user: dict):
 
     stats_row = ft.Row(
         controls=[
-            StatCard("Total Applicants", total_count, ft.icons.PEOPLE, ThemeColors.PRIMARY, is_dark),
-            StatCard("Pending Review", pending_count, ft.icons.HOURGLASS_EMPTY, ThemeColors.WARNING, is_dark),
-            StatCard("Approved", approved_count, ft.icons.CHECK_CIRCLE_OUTLINE, ThemeColors.SUCCESS, is_dark),
-            StatCard("Rejected", rejected_count, ft.icons.CANCEL_OUTLINE, ThemeColors.DANGER, is_dark),
+            StatCard("Total Applicants", total_count, ft.Icons.PEOPLE, ThemeColors.PRIMARY, is_dark),
+            StatCard("Pending Review", pending_count, ft.Icons.HOURGLASS_EMPTY, ThemeColors.WARNING, is_dark),
+            StatCard("Approved", approved_count, ft.Icons.CHECK_CIRCLE_OUTLINE, ThemeColors.SUCCESS, is_dark),
+            StatCard("Rejected", rejected_count, ft.Icons.CANCEL_OUTLINED, ThemeColors.DANGER, is_dark),
         ],
         spacing=16,
     )
@@ -106,7 +106,7 @@ Best Regards,
         if not applicants:
             recent_list.controls.append(
                 EmptyState(
-                    ft.icons.PEOPLE_OUTLINE,
+                    ft.Icons.PEOPLE_OUTLINE,
                     "No Recent Applicants",
                     "New applicant profiles will show up here as they register.",
                     is_dark=is_dark
@@ -135,21 +135,21 @@ Best Regards,
                 actions_row = ft.Row(
                     controls=[
                         ft.IconButton(
-                            icon=ft.icons.RATE_REVIEW,
+                            icon=ft.Icons.RATE_REVIEW,
                             icon_color=ThemeColors.WARNING,
                             icon_size=18,
                             tooltip="Move to Review",
                             on_click=lambda e, aid=app_id: update_student_status(aid, "under_review"),
                         ),
                         ft.IconButton(
-                            icon=ft.icons.CHECK,
+                            icon=ft.Icons.CHECK,
                             icon_color=ThemeColors.SUCCESS,
                             icon_size=18,
                             tooltip="Approve Application",
                             on_click=lambda e, aid=app_id: update_student_status(aid, "approved"),
                         ),
                         ft.IconButton(
-                            icon=ft.icons.CLOSE,
+                            icon=ft.Icons.CLOSE,
                             icon_color=ThemeColors.DANGER,
                             icon_size=18,
                             tooltip="Reject Application",
@@ -172,7 +172,7 @@ Best Regards,
                         ]),
                         padding=ft.padding.symmetric(horizontal=12, vertical=8),
                         border_radius=8,
-                        hover_color=ft.colors.with_opacity(0.02, ThemeColors.PRIMARY),
+                        on_hover=lambda e: setattr(e.control, "bgcolor", ft.colors.with_opacity(0.02, ThemeColors.PRIMARY) if e.data == "true" else ft.colors.TRANSPARENT) or e.control.update(),
                     )
                 )
         page.update()
@@ -184,7 +184,7 @@ Best Regards,
             ft.Row([
                 ft.Text("Recent Onboarding Applications", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                 ft.TextButton("View all students", on_click=lambda _: page.go("/admin/students"), style=ft.ButtonStyle(color=ThemeColors.PRIMARY)),
-            ], alignment=ft.MainAxisAlignment.BETWEEN),
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
             ft.Divider(height=10, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
             recent_list
         ], spacing=10),

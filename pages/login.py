@@ -11,7 +11,7 @@ def show_login(page: ft.Page):
     # Input elements
     email_input = ft.TextField(
         label="Email Address",
-        prefix_icon=ft.icons.EMAIL_OUTLINED,
+        prefix_icon=ft.Icons.EMAIL_OUTLINED,
         keyboard_type=ft.KeyboardType.EMAIL,
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
         focused_border_color=ThemeColors.PRIMARY,
@@ -21,7 +21,7 @@ def show_login(page: ft.Page):
 
     password_input = ft.TextField(
         label="Password",
-        prefix_icon=ft.icons.LOCK_OUTLINED,
+        prefix_icon=ft.Icons.LOCK_OUTLINED,
         password=True,
         can_reveal_password=True,
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
@@ -53,8 +53,8 @@ def show_login(page: ft.Page):
         try:
             user = login_user(email, password)
             if user:
-                # Save user session details
-                page.session.store.set("user", user)
+                # Save user session details - FIXED HERE
+                page.session.set("user", user)
                 
                 # Role-based redirection
                 role = user.get("role", "student")
@@ -85,7 +85,7 @@ def show_login(page: ft.Page):
     form_card = ft.Container(
         content=ft.Column(
             controls=[
-                ft.Text("Welcome Back", size=24, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
+                ft.Text("Welcome Back", size=24, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                 ft.Text("Enter your credentials to access your workspace", size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                 ft.Container(height=10),
                 email_input,

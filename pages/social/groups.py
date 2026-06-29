@@ -72,7 +72,7 @@ def show_social_groups(page: ft.Page, user: dict):
                 action_buttons.extend([
                     ft.ElevatedButton(
                         text="View Feed",
-                        icon=ft.icons.FORWARD,
+                        icon=ft.Icons.FORWARD,
                         bgcolor=ThemeColors.PRIMARY,
                         color=ft.colors.WHITE,
                         on_click=lambda e, s=slug: page.go(f"/social/group/{s}"),
@@ -88,7 +88,7 @@ def show_social_groups(page: ft.Page, user: dict):
                 action_buttons.append(
                     ft.ElevatedButton(
                         text="Join Group",
-                        icon=ft.icons.ADD,
+                        icon=ft.Icons.ADD,
                         bgcolor=ft.colors.with_opacity(0.1, ThemeColors.PRIMARY),
                         color=ThemeColors.PRIMARY_LIGHT if is_dark else ThemeColors.PRIMARY_DARK,
                         on_click=handle_membership,
@@ -101,20 +101,20 @@ def show_social_groups(page: ft.Page, user: dict):
                     content=ft.Column([
                         ft.Container(
                             content=ft.Row([
-                                ft.Icon(ft.icons.GROUP_OUTLINED, color=ThemeColors.PRIMARY, size=24),
+                                ft.Icon(ft.Icons.GROUP_OUTLINED, color=ThemeColors.PRIMARY, size=24),
                                 ft.Container(
                                     content=ft.Text(g["category"], size=10, color=ThemeColors.PRIMARY_LIGHT if is_dark else ThemeColors.PRIMARY_DARK, weight=ft.FontWeight.BOLD),
                                     bgcolor=ft.colors.with_opacity(0.1, ThemeColors.PRIMARY),
                                     padding=ft.padding.symmetric(horizontal=8, vertical=3),
                                     border_radius=4,
                                 )
-                            ], alignment=ft.MainAxisAlignment.BETWEEN),
+                            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                         ),
                         ft.Text(g["name"], size=16, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                         ft.Text(g["description"] or "", size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, max_lines=2, overflow=ft.TextOverflow.ELLIPSIS, expand=True),
                         ft.Text(f"{g['member_count']} members", size=10, color=ThemeColors.DARK_TEXT_FAINT if is_dark else ThemeColors.LIGHT_TEXT_FAINT),
                         ft.Divider(height=1, color=ft.colors.with_opacity(0.05, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
-                        ft.Row(action_buttons, alignment=ft.MainAxisAlignment.BETWEEN),
+                        ft.Row(action_buttons, alignment=ft.MainAxisAlignment.SPACE_BETWEEN),
                     ], spacing=10),
                     width=290,
                     height=200,
@@ -189,7 +189,7 @@ def show_social_groups(page: ft.Page, user: dict):
 
     create_btn = ft.ElevatedButton(
         text="Create New Group",
-        icon=ft.icons.ADD_CIRCLE_OUTLINE,
+        icon=ft.Icons.ADD_CIRCLE_OUTLINE,
         bgcolor=ThemeColors.PRIMARY,
         color=ft.colors.WHITE,
         on_click=open_create_group_dialog,
@@ -201,7 +201,7 @@ def show_social_groups(page: ft.Page, user: dict):
             ft.Row([
                 header,
                 create_btn
-            ], alignment=ft.MainAxisAlignment.BETWEEN, vertical_alignment=ft.CrossAxisAlignment.CENTER),
+            ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN, vertical_alignment=ft.CrossAxisAlignment.CENTER),
             ft.Divider(height=1, color=ft.colors.with_opacity(0.05, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
             groups_grid
         ], spacing=16, scroll=ft.ScrollMode.ADAPTIVE),

@@ -112,7 +112,7 @@ def show_audit_workspace(page: ft.Page, user: dict):
 
     # Inputs and Outputs
     code_editor = ft.TextField(
-        placeholder="Paste code snippet here...",
+        hint_text="Paste code snippet here...",
         multiline=True,
         min_lines=15,
         max_lines=20,
@@ -175,7 +175,7 @@ def show_audit_workspace(page: ft.Page, user: dict):
             code_editor,
             ft.ElevatedButton(
                 text="Run Security Audit",
-                icon=ft.icons.SHIELD,
+                icon=ft.Icons.SHIELD,
                 bgcolor=ThemeColors.PRIMARY,
                 color=ft.colors.WHITE,
                 on_click=run_audit,
@@ -193,7 +193,7 @@ def show_audit_workspace(page: ft.Page, user: dict):
         content=ft.Column([
             ft.Text("Audit Diagnostics Report", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
             ft.Divider(height=1, color=ft.colors.with_opacity(0.05, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
-            ft.Container(content=report_markdown, expand=True, scroll=ft.ScrollMode.ADAPTIVE),
+            ft.Column([report_markdown], scroll=ft.ScrollMode.ADAPTIVE, expand=True),
         ], spacing=10, expand=True),
         padding=16,
         expand=True,

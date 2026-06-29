@@ -36,7 +36,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
     members_list = ft.Column(spacing=8, expand=True)
 
     post_input = ft.TextField(
-        placeholder=f"Post something to {group_name}...",
+        hint_text=f"Post something to {group_name}...",
         multiline=True,
         min_lines=2,
         border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
@@ -61,7 +61,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
 
     post_btn = ft.ElevatedButton(
         text="Post to Group",
-        icon=ft.icons.SEND,
+        icon=ft.Icons.SEND,
         bgcolor=ThemeColors.PRIMARY,
         color=ft.colors.WHITE,
         on_click=submit_group_post,
@@ -93,7 +93,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
         if not posts:
             group_feed_list.controls.append(
                 EmptyState(
-                    ft.icons.FEED_OUTLINED,
+                    ft.Icons.FEED_OUTLINED,
                     "No Group Posts",
                     "Start the discussion by sharing the first post in this group!",
                     is_dark=is_dark
@@ -108,7 +108,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
                 # Expand comments container
                 comments_box = ft.Column(spacing=6, visible=False)
                 new_comment_input = ft.TextField(
-                    placeholder="Write a comment...",
+                    hint_text="Write a comment...",
                     border_color=ThemeColors.PRIMARY if is_dark else ThemeColors.LIGHT_BORDER,
                     text_size=11,
                     expand=True,
@@ -164,12 +164,12 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
                     cb.controls.append(
                         ft.Row([
                             new_comment_input,
-                            ft.IconButton(ft.icons.SEND, icon_color=ThemeColors.PRIMARY, icon_size=14, on_click=add_comment)
+                            ft.IconButton(ft.Icons.SEND, icon_color=ThemeColors.PRIMARY, icon_size=14, on_click=add_comment)
                         ], spacing=6)
                     )
                     page.update()
 
-                like_icon = ft.icons.FAVORITE if has_liked else ft.icons.FAVORITE_BORDER
+                like_icon = ft.Icons.FAVORITE if has_liked else ft.Icons.FAVORITE_BORDER
                 like_color = ThemeColors.DANGER if has_liked else (ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED)
 
                 group_feed_list.controls.append(
@@ -190,7 +190,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
                                     ft.Text(str(p["like_count"]), size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                                 ], spacing=2),
                                 ft.Row([
-                                    ft.IconButton(ft.icons.COMMENT_OUTLINED, icon_color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, icon_size=16, on_click=toggle_comments),
+                                    ft.IconButton(ft.Icons.COMMENT_OUTLINED, icon_color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED, icon_size=16, on_click=toggle_comments),
                                     ft.Text(str(p["comment_count"]), size=11, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                                 ], spacing=2),
                             ], spacing=12),
@@ -243,7 +243,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
         tabs=[
             ft.Tab(
                 text="Group Discussion",
-                icon=ft.icons.FEED_OUTLINED,
+                icon=ft.Icons.FEED_OUTLINED,
                 content=ft.Column([
                     group_post_composer,
                     ft.Container(height=10),
@@ -252,7 +252,7 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
             ),
             ft.Tab(
                 text="Members Roster",
-                icon=ft.icons.PEOPLE_OUTLINED,
+                icon=ft.Icons.PEOPLE_OUTLINED,
                 content=ft.Column([
                     members_list
                 ], spacing=10, scroll=ft.ScrollMode.ADAPTIVE)
@@ -268,8 +268,8 @@ def show_group_detail(page: ft.Page, user: dict, group_slug: str):
     group_header = ft.Container(
         content=ft.Column([
             ft.Row([
-                ft.IconButton(ft.icons.ARROW_BACK, icon_color=ThemeColors.PRIMARY, on_click=lambda _: page.go("/social/groups")),
-                ft.Text(group_name, size=22, weight=ft.FontWeight.BLACK, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
+                ft.IconButton(ft.Icons.ARROW_BACK, icon_color=ThemeColors.PRIMARY, on_click=lambda _: page.go("/social/groups")),
+                ft.Text(group_name, size=22, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
             ], spacing=8),
             ft.Text(group["description"] or "", size=13, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
             ft.Divider(height=15, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if is_dark else ThemeColors.LIGHT_BORDER)),
