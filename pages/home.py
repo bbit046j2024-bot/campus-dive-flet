@@ -52,6 +52,7 @@ def show_home(page: ft.Page):
     hero_container = ft.Container(
         content=ft.Column(
             controls=[
+                ft.Image(src="new_logo.png", width=80, height=80, fit=ft.ImageFit.CONTAIN),
                 hero_title,
                 ft.Container(height=10),
                 hero_subtitle,

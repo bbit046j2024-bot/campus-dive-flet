@@ -26,7 +26,7 @@ class Sidebar(ft.Container):
         # 1. Platform Branding
         brand = ft.Row(
             controls=[
-                ft.Icon(ft.Icons.EXPLORE, color=ThemeColors.PRIMARY, size=28),
+                ft.Image(src="new_logo.png", width=32, height=32, fit=ft.ImageFit.CONTAIN),
                 ft.Text("Campus Dive", size=18, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if self.is_dark else ThemeColors.LIGHT_TEXT),
             ],
             spacing=10,

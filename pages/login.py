@@ -85,6 +85,10 @@ def show_login(page: ft.Page):
     form_card = ft.Container(
         content=ft.Column(
             controls=[
+                ft.Row(
+                    controls=[ft.Image(src="new_logo.png", width=50, height=50, fit=ft.ImageFit.CONTAIN)],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                ),
                 ft.Text("Welcome Back", size=24, weight=ft.FontWeight.W_900, color=ThemeColors.DARK_TEXT if is_dark else ThemeColors.LIGHT_TEXT),
                 ft.Text("Enter your credentials to access your workspace", size=12, color=ThemeColors.DARK_TEXT_MUTED if is_dark else ThemeColors.LIGHT_TEXT_MUTED),
                 ft.Container(height=10),

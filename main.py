@@ -239,7 +239,7 @@ def main(page: ft.Page):
                 content=ft.Row(
                     controls=[
                         hamburger_btn,
-                        ft.Icon(ft.Icons.EXPLORE, color=ThemeColors.PRIMARY, size=20),
+                        ft.Image(src="new_logo.png", width=24, height=24, fit=ft.ImageFit.CONTAIN),
                         ft.Text("Campus Dive", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_TEXT),
                     ],
                     spacing=8,
@@ -294,4 +294,4 @@ def main(page: ft.Page):
     navigate(page.route or "/")
 
 if __name__ == "__main__":
-    ft.app(target=main)
+    ft.app(target=main, assets_dir="assets")
