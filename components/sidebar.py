@@ -175,7 +175,7 @@ class Sidebar(ft.Container):
             controls=[
                 brand,
                 ft.Divider(height=20, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if self.is_dark else ThemeColors.LIGHT_BORDER)),
-                ft.Column(controls=nav_items, spacing=2, expand=True),
+                ft.Column(controls=nav_items, spacing=2, expand=True, scroll=ft.ScrollMode.AUTO),
                 ft.Divider(height=20, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if self.is_dark else ThemeColors.LIGHT_BORDER)),
                 user_card,
                 ft.Container(height=10),

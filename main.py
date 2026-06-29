@@ -74,11 +74,32 @@ def main(page: ft.Page):
     # Initialize SQLite tables & seed default admin
     init_db()
 
+    # Layout state for responsive updates
+    layout_state = {
+        "sidebar": None,
+        "divider": None,
+        "hamburger": None
+    }
+
+    def handle_resize(e):
+        is_mobile = page.width < 768
+        if layout_state["sidebar"]:
+            layout_state["sidebar"].visible = not is_mobile
+        if layout_state["divider"]:
+            layout_state["divider"].visible = not is_mobile
+        if layout_state["hamburger"]:
+            layout_state["hamburger"].visible = is_mobile
+        page.update()
+
+    page.on_resized = handle_resize
+
     # Create the single main content container
     main_container = ft.Container(expand=True)
     page.add(main_container)
 
     def navigate(route):
+        if page.drawer:
+            page.drawer.open = False
         page.route = route
         page.bgcolor = ThemeColors.DARK_BG if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_BG
         user = page.session.get("user")
@@ -158,6 +179,11 @@ def main(page: ft.Page):
         # If public route, render landing content directly.
         # If authed route, embed sidebar side-by-side with scroll content container.
         if is_public:
+            # Clear layout state references on public pages
+            layout_state["sidebar"] = None
+            layout_state["divider"] = None
+            layout_state["hamburger"] = None
+            page.drawer = None
             main_layout = view_content
         else:
             # Sidebar callbacks
@@ -182,15 +208,74 @@ def main(page: ft.Page):
                 on_logout=on_logout,
                 on_theme_toggle=on_theme_toggle
             )
-            
-            main_layout = ft.Row(
+
+            # Mobile sidebar drawer copy
+            drawer_sidebar = Sidebar(
+                page=page,
+                active_route=route,
+                user=user,
+                on_logout=on_logout,
+                on_theme_toggle=on_theme_toggle
+            )
+            drawer_sidebar.width = None
+            drawer_sidebar.border = None
+
+            page.drawer = ft.NavigationDrawer(
+                controls=[drawer_sidebar],
+                bgcolor=ft.colors.with_opacity(0.95, ThemeColors.DARK_SURFACE) if page.theme_mode == ft.ThemeMode.DARK else ft.colors.with_opacity(0.95, ThemeColors.LIGHT_SURFACE),
+            )
+
+            def open_drawer(e):
+                page.drawer.open = True
+                page.drawer.update()
+
+            hamburger_btn = ft.IconButton(
+                icon=ft.Icons.MENU,
+                icon_color=ThemeColors.PRIMARY,
+                on_click=open_drawer,
+            )
+
+            hamburger_row = ft.Container(
+                content=ft.Row(
+                    controls=[
+                        hamburger_btn,
+                        ft.Icon(ft.Icons.EXPLORE, color=ThemeColors.PRIMARY, size=20),
+                        ft.Text("Campus Dive", size=14, weight=ft.FontWeight.BOLD, color=ThemeColors.DARK_TEXT if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_TEXT),
+                    ],
+                    spacing=8,
+                ),
+                padding=ft.padding.only(left=16, top=12, right=16, bottom=4),
+            )
+
+            divider = ft.VerticalDivider(width=1, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_BORDER))
+
+            is_mobile = page.width < 768
+            sidebar.visible = not is_mobile
+            divider.visible = not is_mobile
+            hamburger_row.visible = is_mobile
+
+            # Store components in state so resize handler can access them
+            layout_state["sidebar"] = sidebar
+            layout_state["divider"] = divider
+            layout_state["hamburger"] = hamburger_row
+
+            content_column = ft.Column(
                 controls=[
-                    sidebar,
-                    ft.VerticalDivider(width=1, color=ft.colors.with_opacity(0.1, ThemeColors.DARK_BORDER if page.theme_mode == ft.ThemeMode.DARK else ThemeColors.LIGHT_BORDER)),
+                    hamburger_row,
                     ft.Container(
                         content=view_content,
                         expand=True,
                     )
+                ],
+                spacing=0,
+                expand=True,
+            )
+
+            main_layout = ft.Row(
+                controls=[
+                    sidebar,
+                    divider,
+                    content_column
                 ],
                 spacing=0,
                 expand=True,
